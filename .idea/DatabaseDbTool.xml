@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DatabaseDbTool">
+    <option name="sources">
+      <map>
+        <entry key="flight">
+          <value>
+            <DataConfigSourceDto>
+              <option name="comment" value="" />
+              <option name="connectionType" value="default" />
+              <option name="dataBaseType" value="MySql" />
+              <option name="database" value="flight" />
+              <option name="databaseName" value="flight" />
+              <option name="databaseSslConfig">
+                <DatabaseSslConfig>
+                  <option name="caFile" value="" />
+                  <option name="clientCertificateFile" value="" />
+                  <option name="clientKeyFile" value="" />
+                  <option name="clientKeyPassword" value="" />
+                  <option name="sslMode" value="REQUIRE" />
+                </DatabaseSslConfig>
+              </option>
+              <option name="databaseVersion">
+                <NameVersion>
+                  <option name="majorVersion" value="8" />
+                  <option name="name" value="MySQL" />
+                  <option name="version" value="8.0.31" />
+                </NameVersion>
+              </option>
+              <option name="dbFile" value="" />
+              <option name="driverCombos" value="thin" />
+              <option name="driverType" value="MySQL" />
+              <option name="host" value="localhost" />
+              <option name="jarUrl" value="C:\Users\ioana.LAPTOP-4D7BN58Q\AppData\Roaming\JetBrains\IdeaIC2022.2\jdbc-drivers\MySQL ConnectorJ\8.0.21\mysql-connector-java-8.0.21.jar" />
+              <option name="myUniqueId" value="1529e7e7-9cc0-482b-bff3-118bf764b666" />
+              <option name="port" value="3306" />
+              <option name="properties">
+                <map />
+              </option>
+              <option name="schemaSourceDto">
+                <SchemaSourceDto>
+                  <option name="name" value="flight" />
+                  <option name="tableSources">
+                    <list>
+                      <TableSourceDto>
+                        <option name="columns">
+                          <list>
+                            <ColumnSourceDto>
+                              <option name="autoIncrement" value="true" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="id" />
+                              <option name="columnType" value="int" />
+                              <option name="dataType" value="4" />
+                              <option name="dataTypeStr" value="INT" />
+                              <option name="extra" value="auto_increment" />
+                              <option name="ordinalPosition" value="1" />
+                              <option name="pk" value="true" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="INTEGER" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="amount" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="2" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="end_date" />
+                              <option name="columnType" value="datetime(6)" />
+                              <option name="dataType" value="93" />
+                              <option name="dataTypeStr" value="DATETIME" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="3" />
+                              <option name="size" value="6" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="TIMESTAMP" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="order_number" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="4" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="start_date" />
+                              <option name="columnType" value="datetime(6)" />
+                              <option name="dataType" value="93" />
+                              <option name="dataTypeStr" value="DATETIME" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="5" />
+                              <option name="size" value="6" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="TIMESTAMP" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="type" />
+                              <option name="columnType" value="smallint" />
+                              <option name="dataType" value="5" />
+                              <option name="dataTypeStr" value="SMALLINT" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="6" />
+                              <option name="tableName" value="flight" />
+                              <option name="typeName" value="SMALLINT" />
+                            </ColumnSourceDto>
+                          </list>
+                        </option>
+                        <option name="databaseType" value="MySql" />
+                        <option name="keys">
+                          <list>
+                            <ColumnIndexInfo>
+                              <option name="PK" value="true" />
+                              <option name="collation" value="A" />
+                              <option name="columnName" value="id" />
+                              <option name="indexComment" value="" />
+                              <option name="indexName" value="PRIMARY" />
+                              <option name="indexType" value="BTREE" />
+                              <option name="tableName" value="flight" />
+                            </ColumnIndexInfo>
+                          </list>
+                        </option>
+                        <option name="schema" value="flight" />
+                        <option name="tableName" value="flight" />
+                        <option name="tableRemark" value="" />
+                        <option name="tableType" value="BASE TABLE" />
+                      </TableSourceDto>
+                    </list>
+                  </option>
+                </SchemaSourceDto>
+              </option>
+              <option name="sid" value="" />
+              <option name="url" value="jdbc:mysql://localhost:3306/flight?useSSL=false&amp;serverTimezone=Europe/Sofia" />
+              <option name="userName" value="root" />
+              <option name="driverVersion">
+                <NameVersion>
+                  <option name="majorVersion" value="8" />
+                  <option name="name" value="MySQL Connector/J" />
+                  <option name="version" value="mysql-connector-java-8.0.21 (Revision: 33f65445a1bcc544eb0120491926484da168f199)" />
+                </NameVersion>
+              </option>
+            </DataConfigSourceDto>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
