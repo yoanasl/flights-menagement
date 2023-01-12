@@ -1,6 +1,7 @@
 package com.example.flights.service;
 
 import com.example.flights.dto.CreateFlightDTO;
+import com.example.flights.dto.FlightDTO;
 import com.example.flights.entity.Flight;
 import com.example.flights.repository.FlightRepository;
 import com.example.flights.service.FlightService;
@@ -18,12 +19,11 @@ public class FlightServiceImpl implements FlightService {
 
 
     @Override
-    public Flight createFlight(CreateFlightDTO createFlightDTO) {
-
+    public FlightDTO createFlight(CreateFlightDTO createFlightDTO) {
+//        if(flightRepository.findBy(createFlightDTO.getOrderNumber()).isEmpty())
         Flight flight= modelMapper.map(createFlightDTO, Flight.class);
         flightRepository.save(flight);
-        return flight;
-//        FlightDTO flightDTO= modelMapper.map(flight,FlightDTO.class);
-//        return flightDTO;
+        FlightDTO flightDTO=modelMapper.map(flight,FlightDTO.class);
+        return flightDTO;
     }
 }
