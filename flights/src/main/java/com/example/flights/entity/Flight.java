@@ -2,17 +2,16 @@ package com.example.flights.entity;
 
 import com.example.flights.enums.Type;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
+import lombok.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.Instant;
 
-import java.time.OffsetDateTime;
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "flight")
 public class Flight {
@@ -20,13 +19,22 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NonNull
-    private String orderNumber;
+    private BigInteger orderNumber;
     @NonNull
-    private String amount; //to be parsed -> BigDecimal
+    private BigDecimal amount;
     @NonNull
-    private OffsetDateTime startDate;
+    private Instant startDate;
     @NonNull
-    private OffsetDateTime endDate; //https://stackoverflow.com/questions/71941500/dealing-with-simpledateformat-passed-in-requestbody
+    private Instant endDate;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
+
+    public Flight(@NonNull BigInteger orderNumber, @NonNull BigDecimal amount, @NonNull Instant startDate, @NonNull Instant endDate, Type type) {
+        this.orderNumber = orderNumber;
+        this.amount = amount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
+    }
 }

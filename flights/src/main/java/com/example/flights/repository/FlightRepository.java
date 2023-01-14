@@ -4,10 +4,16 @@ import com.example.flights.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.math.BigInteger;
+import java.util.List;
 
 @Repository
 public interface FlightRepository  extends JpaRepository<Flight, Integer> {
-//    Optional<Flight> findById(String id);
-//    Optional<Flight> findBy(String number);
+    boolean existsByOrderNumber(BigInteger orderNumber);
+
+   Flight getById(int id);
+    List<Flight> findAll();
+
+
+
 }
