@@ -1,7 +1,7 @@
 package com.example.flights.enums;
 
 public enum Type {
-    ONEWAY,
+    ONE_WAY,
     RETURN,
-    MULTICITY
+    MULTI_CITY
 }

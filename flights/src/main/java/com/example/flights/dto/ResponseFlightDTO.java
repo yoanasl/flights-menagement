@@ -1,14 +1,16 @@
 package com.example.flights.dto;
 
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class FlightDTO {
-
+public class ResponseFlightDTO {
+    @NonNull
+    private Integer id;
     @NonNull
     private String orderNumber;
     @NonNull
@@ -17,6 +19,6 @@ public class FlightDTO {
     private String startDate;
     @NonNull
     private String endDate;
-
+    @NonNull
     private String type;
 }
