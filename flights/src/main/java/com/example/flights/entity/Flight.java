@@ -27,7 +27,7 @@ public class Flight {
     @NonNull
     private Instant endDate;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Type type;
 
     public Flight(@NonNull BigInteger orderNumber, @NonNull BigDecimal amount, @NonNull Instant startDate, @NonNull Instant endDate, Type type) {

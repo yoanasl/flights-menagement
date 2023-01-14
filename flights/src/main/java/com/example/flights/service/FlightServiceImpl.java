@@ -28,10 +28,11 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public ResponseFlightDTO createFlight(FlightDTO createFlightDTO) throws UnprocessableEntityException {
-        checkForValidType (createFlightDTO);
+        checkForEmptyFields(createFlightDTO);
         if (flightRepository.existsByOrderNumber (new BigInteger (createFlightDTO.getOrderNumber ()))) {
             throw new InvalidRequestException ("Flight with such order number already exists!");
         }
+        checkTypeAndDate (createFlightDTO);
         try {
             Flight flight = (new Flight (
                     new BigInteger (createFlightDTO.getOrderNumber ()),
@@ -54,23 +55,17 @@ public class FlightServiceImpl implements FlightService {
         }
     }
 
-
     @Override
     public ResponseFlightDTO updateFlight(int id, FlightDTO flightDTO) {
-        checkForEmptyFields (flightDTO);
+        checkForEmptyFields(flightDTO);
         Flight flight = flightRepository.findById (id)
                 .orElseThrow (() -> new NoFlightsFoundException ("No flights found"));
+        checkTypeAndDate(flightDTO);
         try {
-            var startDate = ISOStandartTime (flightDTO.getStartDate ());
-            var endDate = ISOStandartTime (flightDTO.getEndDate ());
-            if (startDate.isAfter (endDate)) {
-                throw new UnprocessableEntityException ("Start date must be before end date");
-            }
             flight.setOrderNumber (new BigInteger (flightDTO.getOrderNumber ()));
             flight.setAmount (new BigDecimal (flightDTO.getAmount ()));
-            flight.setStartDate (startDate);
-            flight.setEndDate (endDate);
-            checkForValidType (flightDTO);
+            flight.setStartDate (ISOStandartTime (flightDTO.getStartDate ()));
+            flight.setEndDate ((ISOStandartTime (flightDTO.getEndDate ())));
             flight.setType (Type.valueOf (flightDTO.getType ()));
             flightRepository.save (flight);
             return getFlightDTO (flight);
@@ -80,41 +75,6 @@ public class FlightServiceImpl implements FlightService {
             throw new UnprocessableEntityException ("Invalid date format: " + flightDTO.getStartDate ());
         }
     }
-
-    private static void checkForValidType(FlightDTO flightDTO) {
-        if (!EnumSet.of (Type.ONE_WAY, Type.RETURN, Type.MULTI_CITY).contains (Type.valueOf (flightDTO.getType ()))) {
-            throw new UnprocessableEntityException ("Invalid type: " + flightDTO.getType ());
-        }
-    }
-
-    private static void checkForEmptyFields(FlightDTO flightDTO) {
-
-        if (flightDTO.getOrderNumber ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing orderNumber field");
-        }
-        if (flightDTO.getAmount ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing amount field");
-        }
-        if (flightDTO.getEndDate ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing endDate field");
-        }
-        if (flightDTO.getStartDate ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing startDate field");
-        }
-        if (flightDTO.getType ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing type field");
-        }
-    }
-
-    private static ResponseFlightDTO getFlightDTO(Flight flight) {
-        return new ResponseFlightDTO (flight.getId (),
-                flight.getOrderNumber ().toString (),
-                flight.getAmount ().toPlainString (),
-                flight.getStartDate ().toString (),
-                flight.getEndDate ().toString (),
-                flight.getType ().toString ());
-    }
-
     @Override
     public List<ResponseFlightDTO> getFlights() throws NoFlightsFoundException {
         List<ResponseFlightDTO> flightDTOList = flightRepository.findAll ().stream ().map
@@ -148,6 +108,43 @@ public class FlightServiceImpl implements FlightService {
         statistic.put ("min", Double.toString (amounts.get (0)));
         statistic.put ("count", Integer.toString (amounts.size ()));
         return statistic;
+    }
+    private void checkTypeAndDate(FlightDTO createFlightDTO) {
+        if (!EnumSet.of (Type.ONE_WAY, Type.RETURN, Type.MULTI_CITY).contains (Type.valueOf (createFlightDTO.getType ()))) {
+            throw new UnprocessableEntityException ("Invalid type: " + createFlightDTO.getType ());
+        }
+        if (ISOStandartTime (createFlightDTO.getStartDate ()).isAfter (ISOStandartTime (createFlightDTO.getEndDate ()))) {
+            throw new UnprocessableEntityException ("Start date must be before end date");
+        }
+    }
+
+
+    private static void checkForEmptyFields(FlightDTO flightDTO) {
+
+        if (flightDTO.getOrderNumber ().isEmpty ()) {
+            throw new InvalidRequestException ("Missing orderNumber field");
+        }
+        if (flightDTO.getAmount ().isEmpty ()) {
+            throw new InvalidRequestException ("Missing amount field");
+        }
+        if (flightDTO.getEndDate ().isEmpty ()) {
+            throw new InvalidRequestException ("Missing endDate field");
+        }
+        if (flightDTO.getStartDate ().isEmpty ()) {
+            throw new InvalidRequestException ("Missing startDate field");
+        }
+        if (flightDTO.getType ().isEmpty ()) {
+            throw new InvalidRequestException ("Missing type field");
+        }
+    }
+
+    private static ResponseFlightDTO getFlightDTO(Flight flight) {
+        return new ResponseFlightDTO (flight.getId (),
+                flight.getOrderNumber ().toString (),
+                flight.getAmount ().toPlainString (),
+                flight.getStartDate ().toString (),
+                flight.getEndDate ().toString (),
+                flight.getType ().toString ());
     }
 
     private Instant ISOStandartTime(String time) {
