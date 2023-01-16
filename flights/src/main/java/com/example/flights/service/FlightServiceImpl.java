@@ -30,29 +30,26 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public ResponseFlightDTO createFlight(FlightDTO createFlightDTO) throws UnprocessableEntityException {
-        try {
-            checkForEmptyFields (createFlightDTO);
+//        try {
             if (flightRepository.existsByOrderNumber (new BigInteger (createFlightDTO.getOrderNumber ()))) {
                 throw new InvalidRequestException ("Flight with such order number already exists!");
             }
-            checkTypeAndDate (createFlightDTO);
+            try {
+                checkTypeAndDate (createFlightDTO);
+            } catch (UnprocessableEntityException e) {
+                log.error ("Error checking date and type for flights: " + e.getMessage ());
+                throw e;
+            }
             Flight flight = (new Flight (
                     new BigInteger (createFlightDTO.getOrderNumber ()),
                     new BigDecimal (createFlightDTO.getAmount ()),
                     ISOStandartTime (createFlightDTO.getStartDate ()),
                     ISOStandartTime (createFlightDTO.getEndDate ()),
                     Type.valueOf (createFlightDTO.getType ())));
-
-            if (flight.getStartDate ().isAfter (flight.getEndDate ())) {
-                throw new UnprocessableEntityException ("Start date must be before end date");
-            }
             flightRepository.save (flight);
             return getFlightDTO (flight);
-        } catch (InvalidRequestException e) {
-            log.error ("Error creating flight: " + e.getMessage (), e);
-            throw e;
-        } catch (UnprocessableEntityException e) {
-            log.error ("Error creating flight: Start date must be before end date" + e.getMessage (), e);
+      /*  } catch (InvalidRequestException e) {
+            log.error ("Error creating flight: " + e.getMessage ());
             throw e;
         } catch (NumberFormatException e) {
             log.error ("Error creating flight: Invalid amount: " + createFlightDTO.getAmount (), e);
@@ -63,7 +60,7 @@ public class FlightServiceImpl implements FlightService {
         } catch (IllegalArgumentException e) {
             log.error ("Error creating flight: Invalid type: " + createFlightDTO.getType (), e);
             throw new UnprocessableEntityException ("Invalid type: " + createFlightDTO.getType (), e);
-        }
+        }*/
     }
 
     @Override
@@ -81,7 +78,7 @@ public class FlightServiceImpl implements FlightService {
             flightRepository.save (flight);
             return getFlightDTO (flight);
         } catch (NoFlightsFoundException e) {
-            log.error ("Error updating flights: " + e.getMessage (), e);
+            log.error ("Error updating flights: ");
             throw e;
         } catch (NumberFormatException e) {
             log.error ("Error updating flight: Invalid amount: " + e.getMessage (), e);
@@ -94,89 +91,77 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<ResponseFlightDTO> getFlights() throws NoFlightsFoundException {
-        try {
-            List<ResponseFlightDTO> flightDTOList = flightRepository.findAll ().stream ().map
-                    (flight -> getFlightDTO (flight)).toList ();
-            if (flightDTOList.isEmpty ()) {
-                throw new NoFlightsFoundException ("No flights found");
-            }
-            return flightDTOList;
-        } catch (NoFlightsFoundException e) {
-            log.error ("Error retrieving flights: " + e.getMessage (), e);
-            throw e;
+
+        List<ResponseFlightDTO> flightDTOList = flightRepository.findAll ().stream ().map
+                (flight -> getFlightDTO (flight)).toList ();
+        if (flightDTOList.isEmpty ()) {
+            throw new NoFlightsFoundException ("No flights found");
         }
+        return flightDTOList;
+
     }
 
     @Override
     public void deleteAllFlights() {
-        try {
-            if (getFlights ().isEmpty ()) {
-                throw new NoFlightsFoundException ("No flights found");
-            }
-            flightRepository.deleteAll ();
-        } catch (NoFlightsFoundException e) {
-            log.error ("Error deleting flights: " + e.getMessage (), e);
-            throw e;
-        }
+        getFlights ();
+        flightRepository.deleteAll ();
     }
 
     @Override
     public Map<String, String> getStatistics() {
-        try {Map<String, String> statistic = new HashMap<> ();
-        List<Double> amounts = flightRepository.findAll ().stream ()
-                .map (f -> (f.getAmount ()).doubleValue ()).sorted ().toList ();
-        if (amounts.isEmpty ()) {
-            throw new NoFlightsFoundException ("No flights found");
-        }
-        double sum = amounts.stream ().mapToDouble (aDouble -> aDouble.doubleValue ()).sum ();
-        statistic.put ("sum", Double.toString (sum));
-        statistic.put ("avg", Double.toString (sum / amounts.size ()));
-        statistic.put ("max", Double.toString (amounts.get (amounts.size () - 1)));
-        statistic.put ("min", Double.toString (amounts.get (0)));
-        statistic.put ("count", Integer.toString (amounts.size ()));
-        return statistic;}
-        catch (NoFlightsFoundException e ){
-            log.error("Error retrieving for statistics flights: " + e.getMessage(), e);
+        try {
+            Map<String, String> statistic = new HashMap<> ();
+            List<Double> amounts = flightRepository.findAll ().stream ()
+                    .map (f -> (f.getAmount ()).doubleValue ()).sorted ().toList ();
+            if (amounts.isEmpty ()) {
+                throw new NoFlightsFoundException ("No flights found");
+            }
+            double sum = amounts.stream ().mapToDouble (aDouble -> aDouble.doubleValue ()).sum ();
+            statistic.put ("sum", Double.toString (sum));
+            statistic.put ("avg", Double.toString (sum / amounts.size ()));
+            statistic.put ("max", Double.toString (amounts.get (amounts.size () - 1)));
+            statistic.put ("min", Double.toString (amounts.get (0)));
+            statistic.put ("count", Integer.toString (amounts.size ()));
+            return statistic;
+        } catch (NoFlightsFoundException e) {
+            log.error ("Error retrieving for statistics flights: " + e.getMessage (), e);
             throw e;
         }
     }
 
     private void checkTypeAndDate(FlightDTO createFlightDTO) {
-     try {
-         if (!EnumSet.of (Type.ONE_WAY, Type.RETURN, Type.MULTI_CITY).contains (Type.valueOf (createFlightDTO.getType ()))) {
-             throw new UnprocessableEntityException ("Invalid type: " + createFlightDTO.getType ());
-         }
-         if (ISOStandartTime (createFlightDTO.getStartDate ()).isAfter (ISOStandartTime (createFlightDTO.getEndDate ()))) {
-             throw new UnprocessableEntityException ("Start date must be before end date");
-         }
-     }catch (UnprocessableEntityException e){
-         log.error("Error checking date and type for flights: " + e.getMessage(), e);
-         throw e;
-     }
+
+        if (!EnumSet.of (Type.ONE_WAY, Type.RETURN, Type.MULTI_CITY).contains (Type.valueOf (createFlightDTO.getType ()))) {
+            throw new UnprocessableEntityException ("Invalid type: " + createFlightDTO.getType ());
+        }
+        if (ISOStandartTime (createFlightDTO.getStartDate ()).isAfter (ISOStandartTime (createFlightDTO.getEndDate ()))) {
+            throw new UnprocessableEntityException ("Start date must be before end date");
+        }
     }
 
 
     private static void checkForEmptyFields(FlightDTO flightDTO) {
 
-     try{   if (flightDTO.getOrderNumber ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing orderNumber field");
+        try {
+            if (flightDTO.getOrderNumber ().isEmpty ()) {
+                throw new InvalidRequestException ("Missing orderNumber field");
+            }
+            if (flightDTO.getAmount ().isEmpty ()) {
+                throw new InvalidRequestException ("Missing amount field");
+            }
+            if (flightDTO.getEndDate ().isEmpty ()) {
+                throw new InvalidRequestException ("Missing endDate field");
+            }
+            if (flightDTO.getStartDate ().isEmpty ()) {
+                throw new InvalidRequestException ("Missing startDate field");
+            }
+            if (flightDTO.getType ().isEmpty ()) {
+                throw new InvalidRequestException ("Missing type field");
+            }
+        } catch (InvalidRequestException e) {
+            log.error ("Error missing fields ");
+            throw e;
         }
-        if (flightDTO.getAmount ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing amount field");
-        }
-        if (flightDTO.getEndDate ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing endDate field");
-        }
-        if (flightDTO.getStartDate ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing startDate field");
-        }
-        if (flightDTO.getType ().isEmpty ()) {
-            throw new InvalidRequestException ("Missing type field");
-        }}
-     catch (InvalidRequestException e){
-         log.error ("Error missing fields ",e);
-         throw e;
-     }
     }
 
     private static ResponseFlightDTO getFlightDTO(Flight flight) {
