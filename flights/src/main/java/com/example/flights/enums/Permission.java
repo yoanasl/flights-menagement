@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Permission {
+public enum Permission{
     FLIGHT_READ("flight:read"),
     FLIGHT_WRITE("flight:write"),
     FLIGHT_UPDATE("flight:update"),

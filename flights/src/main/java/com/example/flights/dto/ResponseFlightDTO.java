@@ -8,7 +8,7 @@ import lombok.NonNull;
 @Data
 @Builder
 @AllArgsConstructor
-public class ResponseFlightDTO {
+public class ResponseFlightDTO{
     @NonNull
     private Integer id;
     @NonNull

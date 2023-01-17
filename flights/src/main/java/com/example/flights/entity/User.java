@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User{
     @Id
     @NotBlank
     @NonNull
@@ -27,9 +27,9 @@ public class User {
     @Size(min = 8)
     private String password;
 
-    private  Set<? extends GrantedAuthority> grantedAuthorities;
+    private Set<? extends GrantedAuthority> grantedAuthorities;
 
-    public User(String email, String password) {
+    public User(String email, String password){
         this.email = email;
         this.password = password;
     }

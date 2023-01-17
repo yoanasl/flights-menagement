@@ -2,13 +2,16 @@ package com.example.flights.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FlightDTO {
+public class FlightDTO{
 
     @NotBlank
     private String orderNumber;

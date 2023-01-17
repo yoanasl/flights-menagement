@@ -18,7 +18,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "flight")
-public class Flight {
+public class Flight{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -35,7 +35,7 @@ public class Flight {
     @Enumerated(EnumType.ORDINAL)
     private Type type;
 
-    public Flight(@NonNull Long orderNumber, @NonNull BigDecimal amount, @NonNull Instant startDate, @NonNull Instant endDate, Type type) {
+    public Flight(@NonNull Long orderNumber, @NonNull BigDecimal amount, @NonNull Instant startDate, @NonNull Instant endDate, Type type){
         this.orderNumber = orderNumber;
         this.amount = amount;
         this.startDate = startDate;
@@ -43,14 +43,14 @@ public class Flight {
         this.type = type;
     }
 
-    public void setOrderNumber(Long orderNumber) {
-        if(orderNumber <= 0) {
+    public void setOrderNumber(Long orderNumber){
+        if(orderNumber <= 0){
             throw new NumberFormatException("Amount cannot be negative!");
         }
         this.orderNumber = orderNumber;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount){
         this.amount = amount;
     }
 }
