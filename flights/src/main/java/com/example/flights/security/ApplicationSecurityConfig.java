@@ -1,13 +1,17 @@
 package com.example.flights.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,13 +25,14 @@ import static com.example.flights.enums.UserRole.USER;
 public class ApplicationSecurityConfig {
     private final PasswordEncoder passwordEncoder;
 
+    private final UserDetailsService userDetailsService;
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests ()
-//                .requestMatchers ("/").permitAll ()
-//                .requestMatchers (HttpMethod.POST,"/api-flights/flights").permitAll ()
+                .requestMatchers ( "/register").permitAll ()
                 .requestMatchers (HttpMethod.DELETE,"/api-flights/flights").hasRole (ADMIN.name ())
+                .requestMatchers (HttpMethod.PUT,"/api-flights/flights/{id}").hasRole (ADMIN.name ())
                 .anyRequest ()
                 .authenticated ()
                 .and ()
@@ -35,20 +40,33 @@ public class ApplicationSecurityConfig {
         return http.build ();
     }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withUsername ("user")
-                .password (passwordEncoder.encode ("password"))
-                .roles (USER.name ())
-                .build ();
+//    @Bean
+//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+//        UserDetails user = User.withUsername ("user")
+//                .password (passwordEncoder.encode ("password"))
+//                .roles (USER.name ())
+//                .build ();
+//
+//        UserDetails admin = User.withUsername ("admin")
+//                .password (passwordEncoder.encode ("admin"))
+//                .roles (ADMIN.name ())
+//                .build ();
+//
+//        return new InMemoryUserDetailsManager (user, admin);
+//    }
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        authenticationProvider.setUserDetailsService(inMemoryUserDetailsManager ());
+//        authenticationProvider.setPasswordEncoder(passwordEncoder);
+//
+//        return authenticationProvider;
+//    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
 
-        UserDetails admin = User.withUsername ("admin")
-                .password (passwordEncoder.encode ("admin"))
-                .roles (ADMIN.name ())
-                .build ();
-
-        return new InMemoryUserDetailsManager (user, admin);
     }
-
-
 }

@@ -13,7 +13,7 @@ import static com.example.flights.enums.Permission.*;
 @AllArgsConstructor
 public enum UserRole {
     USER(Sets.newHashSet(FLIGHT_READ, FLIGHT_WRITE)),
-    ADMIN(Sets.newHashSet(FLIGHT_DELETE,FLIGHT_READ, FLIGHT_WRITE));
+    ADMIN(Sets.newHashSet(FLIGHT_DELETE,FLIGHT_READ, FLIGHT_WRITE, FLIGHT_UPDATE));
 
     private final Set<Permission> permissions;
     public Set<Permission> getPermissions(){return permissions;}
