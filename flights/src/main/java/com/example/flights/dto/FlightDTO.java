@@ -1,6 +1,7 @@
 package com.example.flights.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Data
@@ -9,14 +10,14 @@ import lombok.*;
 @NoArgsConstructor
 public class FlightDTO {
 
-    @NonNull
+    @NotBlank
     private String orderNumber;
-    @NonNull
+    @NotBlank
     private String amount;
-    @NonNull
+    @NotBlank
     private String startDate;
-    @NonNull
+    @NotBlank
     private String endDate;
-
+    @NotBlank
     private String type;
 }

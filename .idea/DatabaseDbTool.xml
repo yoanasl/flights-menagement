@@ -145,6 +145,111 @@
                         <option name="tableRemark" value="" />
                         <option name="tableType" value="BASE TABLE" />
                       </TableSourceDto>
+                      <TableSourceDto>
+                        <option name="columns">
+                          <list>
+                            <ColumnSourceDto>
+                              <option name="autoIncrement" value="true" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="id" />
+                              <option name="columnType" value="bigint" />
+                              <option name="dataType" value="-5" />
+                              <option name="dataTypeStr" value="BIGINT" />
+                              <option name="extra" value="auto_increment" />
+                              <option name="ordinalPosition" value="1" />
+                              <option name="pk" value="true" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="BIGINT" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="email" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="2" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="password" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="3" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="role" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="4" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="collationName" value="utf8mb4_0900_ai_ci" />
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="username" />
+                              <option name="columnType" value="varchar(255)" />
+                              <option name="dataType" value="12" />
+                              <option name="dataTypeStr" value="VARCHAR" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="5" />
+                              <option name="size" value="255" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="VARCHAR" />
+                            </ColumnSourceDto>
+                            <ColumnSourceDto>
+                              <option name="columnComment" value="" />
+                              <option name="columnName" value="granted_authorities" />
+                              <option name="columnType" value="blob" />
+                              <option name="dataType" value="2004" />
+                              <option name="dataTypeStr" value="BLOB" />
+                              <option name="extra" value="" />
+                              <option name="nullable" value="true" />
+                              <option name="ordinalPosition" value="6" />
+                              <option name="tableName" value="user" />
+                              <option name="typeName" value="BLOB" />
+                            </ColumnSourceDto>
+                          </list>
+                        </option>
+                        <option name="databaseType" value="MySql" />
+                        <option name="keys">
+                          <list>
+                            <ColumnIndexInfo>
+                              <option name="PK" value="true" />
+                              <option name="collation" value="A" />
+                              <option name="columnName" value="id" />
+                              <option name="indexComment" value="" />
+                              <option name="indexName" value="PRIMARY" />
+                              <option name="indexType" value="BTREE" />
+                              <option name="tableName" value="user" />
+                            </ColumnIndexInfo>
+                          </list>
+                        </option>
+                        <option name="schema" value="flight" />
+                        <option name="tableName" value="user" />
+                        <option name="tableRemark" value="" />
+                        <option name="tableType" value="BASE TABLE" />
+                      </TableSourceDto>
                     </list>
                   </option>
                 </SchemaSourceDto>

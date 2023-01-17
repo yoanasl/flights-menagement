@@ -6,6 +6,7 @@ import com.example.flights.exception.InvalidRequestException;
 import com.example.flights.exception.NoFlightsFoundException;
 import com.example.flights.exception.UnprocessableEntityException;
 import com.example.flights.service.FlightService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class FlightController {
 
     //TODO remove the ResponseEntity<FlightDTO>
     @PostMapping("/flights")
-    public ResponseEntity<ResponseFlightDTO> createFlight(@RequestBody FlightDTO createFlightDTO) {
+    public ResponseEntity<ResponseFlightDTO> createFlight(@Valid @RequestBody FlightDTO createFlightDTO) {
         try {
             flightService.createFlight (createFlightDTO);
             return new ResponseEntity<> (HttpStatus.CREATED);
@@ -45,6 +46,10 @@ public class FlightController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<String> hello(){
+        return  ResponseEntity.ok ("Hello");
+    }
     @GetMapping("/statistics")
     public ResponseEntity getStatistics() {
         try {
@@ -55,7 +60,7 @@ public class FlightController {
     }
 
     @PutMapping("/flights/{id}")
-    public ResponseEntity<ResponseFlightDTO> updateFlight(@PathVariable int id, @RequestBody FlightDTO flightDTO) {
+    public ResponseEntity<ResponseFlightDTO> updateFlight(@PathVariable int id,@Valid @RequestBody FlightDTO flightDTO) {
         try {
             ResponseFlightDTO updatedFlight = flightService.updateFlight (id, flightDTO);
             return new ResponseEntity<> (updatedFlight, HttpStatus.OK);
@@ -73,9 +78,7 @@ public class FlightController {
         try {
             flightService.deleteAllFlights ();
             return new ResponseEntity<> (HttpStatus.NO_CONTENT);
-        } catch (ResponseStatusException ex) {
-            return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
-        } catch (NoFlightsFoundException e) {
+        }catch (NoFlightsFoundException e) {
             return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         }
     }

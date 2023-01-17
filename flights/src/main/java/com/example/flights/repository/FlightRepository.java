@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface FlightRepository  extends JpaRepository<Flight, Integer> {
-    boolean existsByOrderNumber(BigInteger orderNumber);
+    boolean existsByOrderNumber(Long orderNumber);
 
    Flight getById(int id);
     List<Flight> findAll();
